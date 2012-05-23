@@ -37,9 +37,9 @@ to omit the containing `(` and `)` characters.
         configure(RisonParser.Feature.O_RISON, true));
 
     String string = "a:0,b:foo,c:'23skidoo'";
-    Map map = A_RISON.readValue(json, Map.class);
+    Map map = O_RISON.readValue(json, Map.class);
     ...
-    A_RISON.writeValueAsString(map);
+    O_RISON.writeValueAsString(map);
 
 
 A-Rison
