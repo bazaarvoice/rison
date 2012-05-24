@@ -588,7 +588,7 @@ public class RisonParser
                 }
                 break;
             default:
-                if (RisonUtils.isIdStart(i)) {
+                if (IdentifierUtils.isIdStartLenient(i)) {
                     t = JsonToken.VALUE_STRING;
                     _inputPtr--;  // push back the first char
                     _parseUnquotedString();
@@ -1169,7 +1169,7 @@ public class RisonParser
             throws IOException, JsonParseException
     {
         // Also: first char must be a valid name char, but NOT be number
-        boolean firstOk = RisonUtils.isIdStart(i);
+        boolean firstOk = IdentifierUtils.isIdStartLenient(i);
         if (!firstOk) {
             _reportUnexpectedChar(i, "was expecting either valid name character (for unquoted name) or single-quote (for quoted) to start field name");
         }
@@ -1180,7 +1180,7 @@ public class RisonParser
         if (ptr < inputLen) {
             do {
                 int ch = _inputBuffer[ptr];
-                if (!RisonUtils.isIdChar(ch)) {
+                if (!IdentifierUtils.isIdCharLenient(ch)) {
                     int start = _inputPtr-1; // -1 to bring back first char
                     _inputPtr = ptr;
                     return _symbols.findSymbol(_inputBuffer, start, ptr - start, hash);
@@ -1241,7 +1241,7 @@ public class RisonParser
                 }
             }
             char c = _inputBuffer[_inputPtr];
-            if (!RisonUtils.isIdChar(c)) {
+            if (!IdentifierUtils.isIdCharLenient(c)) {
                 break;
             }
             ++_inputPtr;
@@ -1279,7 +1279,7 @@ public class RisonParser
         if (ptr < inputLen) {
             do {
                 char ch = _inputBuffer[ptr];
-                if (!RisonUtils.isIdChar(ch)) {
+                if (!IdentifierUtils.isIdCharLenient(ch)) {
                     _textBuffer.resetWithShared(_inputBuffer, _inputPtr, (ptr-_inputPtr));
                     _inputPtr = ptr;
                     // Yes, we got it all
@@ -1308,7 +1308,7 @@ public class RisonParser
                 break;  // eof
             }
             char c = _inputBuffer[_inputPtr];
-            if (!RisonUtils.isIdChar(c)) {
+            if (!IdentifierUtils.isIdCharLenient(c)) {
                 break;
             }
             _inputPtr++;
@@ -1495,7 +1495,7 @@ public class RisonParser
             return;
         }
         // if letter, it's a problem tho
-        if (RisonUtils.isIdChar(c)) {
+        if (IdentifierUtils.isIdCharLenient(c)) {
             ++_inputPtr;
             _reportInvalidToken(matchStr.substring(0, i), "'null', 'true', 'false' or NaN");
         }
@@ -1663,7 +1663,7 @@ public class RisonParser
                 }
             }
             char c = _inputBuffer[_inputPtr];
-            if (!RisonUtils.isIdChar(c)) {
+            if (!IdentifierUtils.isIdCharLenient(c)) {
                 break;
             }
             ++_inputPtr;

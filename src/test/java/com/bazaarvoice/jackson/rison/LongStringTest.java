@@ -64,13 +64,13 @@ public class LongStringTest {
         int pos = 0;
         while (pos < 1) {
             char ch = (char) RANDOM.nextInt();
-            if (RisonUtils.isIdStart(ch)) {
+            if (IdentifierUtils.isIdStartLenient(ch)) {
                 chars[pos++] = ch;
             }
         }
         while (pos < chars.length) {
             char ch = (char) RANDOM.nextInt();
-            if (RisonUtils.isIdChar(ch)) {
+            if (IdentifierUtils.isIdCharLenient(ch)) {
                 chars[pos++] = ch;
             }
         }

@@ -282,7 +282,7 @@ public final class RisonGenerator
             _outputBuffer[_outputTail++] = ',';
         }
 
-        if (RisonUtils.isId(name)) {
+        if (IdentifierUtils.isIdStrict(name)) {
             _writeRaw(name);
             return;
         }
@@ -325,7 +325,7 @@ public final class RisonGenerator
             _flushBuffer();
         }
 
-        if (RisonUtils.isId(text)) {
+        if (IdentifierUtils.isIdStrict(text)) {
             _writeRaw(text);
             return;
         }
@@ -345,7 +345,7 @@ public final class RisonGenerator
     {
         _verifyValueWrite("write text value");
 
-        if (RisonUtils.isId(text, offset, len)) {
+        if (IdentifierUtils.isIdStrict(text, offset, len)) {
             _writeRaw(text, offset, len);
             return;
         }
