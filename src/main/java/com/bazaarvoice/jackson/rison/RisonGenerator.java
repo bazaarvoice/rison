@@ -581,7 +581,7 @@ public final class RisonGenerator
             _flushBuffer();
         }
         _outputBuffer[_outputTail++] = '\'';
-        _writeRaw(value.toString());  // todo
+        _writeRaw(value.toString());
         if (_outputTail >= _outputEnd) {
             _flushBuffer();
         }

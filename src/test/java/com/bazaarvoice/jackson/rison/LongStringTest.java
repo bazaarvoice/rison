@@ -13,7 +13,7 @@ import static org.testng.Assert.*;
 
 public class LongStringTest {
 
-    private static final Random RANDOM = new Random(234073459332523L);  // todo: remove seed
+    private static final Random RANDOM = new Random();
     private static final ObjectMapper RISON = new ObjectMapper(new RisonFactory());
 
     @Test
