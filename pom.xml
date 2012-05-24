@@ -31,12 +31,6 @@
             <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-smile</artifactId>
-            <version>${jackson.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Test dependencies -->
         <dependency>

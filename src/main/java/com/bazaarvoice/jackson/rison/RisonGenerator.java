@@ -910,6 +910,12 @@ public final class RisonGenerator
             // So; either try to prepend (most likely), or write directly:
             start = _prependOrWrite(_outputBuffer, ptr, '!');
             ptr++;  // advance past the char-to-be-escaped
+
+            // Flush the last 1 or 2 characters if this is the last time though the loop
+            if (ptr == end) {
+                _writer.write(_outputBuffer, start, ptr - start);
+                break output_loop;
+            }
         }
     }
 
@@ -974,7 +980,7 @@ public final class RisonGenerator
     {
         // Encoding is by chunks of 3 input, 4 output chars, so:
         int safeInputEnd = inputEnd - 3;
-        // Let's also reserve room for possible (and quoted) lf char each round
+        // Let's also reserve room for possible lf char each round
         int safeOutputEnd = _outputEnd - 6;
         int chunksBeforeLF = b64variant.getMaxLineLength() >> 2;
 
@@ -989,9 +995,8 @@ public final class RisonGenerator
             b24 = (b24 << 8) | (((int) input[inputPtr++]) & 0xFF);
             _outputTail = b64variant.encodeBase64Chunk(b24, _outputBuffer, _outputTail);
             if (--chunksBeforeLF <= 0) {
-                // note: must quote in JSON value
-                _outputBuffer[_outputTail++] = '\\';
-                _outputBuffer[_outputTail++] = 'n';
+                // note: RISON does not escape newlines
+                _outputBuffer[_outputTail++] = '\n';
                 chunksBeforeLF = b64variant.getMaxLineLength() >> 2;
             }
         }
@@ -1004,7 +1009,7 @@ public final class RisonGenerator
             }
             int b24 = ((int) input[inputPtr++]) << 16;
             if (inputLeft == 2) {
-                b24 |= (((int) input[inputPtr++]) & 0xFF) << 8;
+                b24 |= (((int) input[inputPtr]) & 0xFF) << 8;
             }
             _outputTail = b64variant.encodeBase64Partial(b24, inputLeft, _outputBuffer, _outputTail);
         }

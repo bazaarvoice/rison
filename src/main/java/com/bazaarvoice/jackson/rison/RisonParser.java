@@ -1131,13 +1131,12 @@ public class RisonParser
                 }
             }
             char c = _inputBuffer[_inputPtr++];
-            int i = (int) c;
-            if (i == endChar) {
+            if (c == endChar) {
                 break;
-            } else if (i == '!') {
+            } else if (c == '!') {
                 c = _decodeEscaped();
             }
-            hash = (hash * 31) + i;
+            hash = (hash * 31) + c;
             // Ok, let's add char to output:
             outBuf[outPtr++] = c;
 
@@ -1242,12 +1241,11 @@ public class RisonParser
                 }
             }
             char c = _inputBuffer[_inputPtr];
-            int i = (int) c;
             if (!RisonUtils.isIdChar(c)) {
                 break;
             }
             ++_inputPtr;
-            hash = (hash * 31) + i;
+            hash = (hash * 31) + c;
             // Ok, let's add char to output:
             outBuf[outPtr++] = c;
 
@@ -1286,8 +1284,6 @@ public class RisonParser
                     _inputPtr = ptr;
                     // Yes, we got it all
                     return;
-                } else if (ch == '!') {
-                    break;  // escape, can't take the fast path
                 }
                 ++ptr;
             } while (ptr < inputLen);
@@ -1311,7 +1307,7 @@ public class RisonParser
             if (_inputPtr >= _inputEnd && !loadMore()) {
                 break;  // eof
             }
-            char c = _inputBuffer[_inputPtr++];
+            char c = _inputBuffer[_inputPtr];
             if (!RisonUtils.isIdChar(c)) {
                 break;
             }
@@ -1535,7 +1531,7 @@ public class RisonParser
                 if (ch == INT_APOSTROPHE) { // reached the end, fair and square?
                     return builder.toByteArray();
                 }
-                bits = _decodeBase64Escape(b64variant, ch, 0);
+                bits = _decodeBase64Escape2(b64variant, ch, 0);
                 if (bits < 0) { // white space to skip
                     continue;
                 }
@@ -1550,7 +1546,7 @@ public class RisonParser
             ch = _inputBuffer[_inputPtr++];
             bits = b64variant.decodeBase64Char(ch);
             if (bits < 0) {
-                bits = _decodeBase64Escape(b64variant, ch, 1);
+                bits = _decodeBase64Escape2(b64variant, ch, 1);
             }
             decodedData = (decodedData << 6) | bits;
 
@@ -1570,7 +1566,7 @@ public class RisonParser
                         builder.append(decodedData);
                         return builder.toByteArray();
                     }
-                    bits = _decodeBase64Escape(b64variant, ch, 2);
+                    bits = _decodeBase64Escape2(b64variant, ch, 2);
                 }
                 if (bits == Base64Variant.BASE64_VALUE_PADDING) {
                     // Ok, must get more padding chars, then
@@ -1604,7 +1600,7 @@ public class RisonParser
                         builder.appendTwoBytes(decodedData);
                         return builder.toByteArray();
                     }
-                    bits = _decodeBase64Escape(b64variant, ch, 3);
+                    bits = _decodeBase64Escape2(b64variant, ch, 3);
                 }
                 if (bits == Base64Variant.BASE64_VALUE_PADDING) {
                     // With padding we only get 2 bytes; but we have
@@ -1622,6 +1618,28 @@ public class RisonParser
             decodedData = (decodedData << 6) | bits;
             builder.appendThreeBytes(decodedData);
         }
+    }
+
+    protected int _decodeBase64Escape2(Base64Variant b64variant, char ch, int index)
+        throws IOException, JsonParseException
+    {
+        // if white space, skip if first triplet; otherwise errors
+        if (ch <= INT_SPACE) {
+            if (index == 0) { // whitespace only allowed to be skipped between triplets
+                return -1;
+            }
+        }
+        // 17-May-2011, tatu: As per [JACKSON-xxx], need to handle escaped chars
+        if (ch != '!') {
+            throw reportInvalidBase64Char(b64variant, ch, index);
+        }
+        char unescaped = _decodeEscaped();
+        // otherwise try to find actual triplet value
+        int bits = b64variant.decodeBase64Char(unescaped);
+        if (bits < 0) {
+            throw reportInvalidBase64Char(b64variant, unescaped, index);
+        }
+        return bits;
     }
 
     /*

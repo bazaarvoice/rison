@@ -47,6 +47,7 @@ public class RisonTest {
                 {"'Control-F: \u0006'", "\"Control-F: \\u0006\""},
                 {"'Unicode: \u0BEB'", "\"Unicode: \\u0BEB\""},
                 {"(a:!((b:c,'3':!())))", "{\"a\":[{\"b\":\"c\",\"3\":[]}]}"},
+                {"(a:'this\thas\nmultiple\nlines\n')", "{\"a\":\"this\\thas\\nmultiple\\nlines\\n\"}"},
         };
     }
 
