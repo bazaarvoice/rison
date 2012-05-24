@@ -5,17 +5,28 @@
 
     <groupId>com.bazaarvoice</groupId>
     <artifactId>jackson-rison</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Rison data format</name>
     <description>Jackson JSON parser Support for the Rison data format</description>
+    <url>http://github.com/bazaarvoice/rison</url>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <scm>
+        <url>https://github.com/bazaarvoice/rison</url>
         <connection>scm:git:git@github.com:bazaarvoice/rison.git</connection>
     </scm>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jackson.version>1.9.7</jackson.version>
     </properties>
 
@@ -26,15 +37,13 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- Temporary dependencies -->
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Test dependencies -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -43,4 +52,15 @@
         </dependency>
     </dependencies>
 
+
+    <distributionManagement>
+        <repository>
+            <id>bazaarvoice-deploy</id>
+            <url>https://repo.bazaarvoice.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>bazaarvoice-deploy</id>
+            <url>https://repo.bazaarvoice.com/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
