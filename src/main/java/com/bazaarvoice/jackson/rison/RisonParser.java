@@ -1496,7 +1496,6 @@ public class RisonParser
         }
         // if letter, it's a problem tho
         if (IdentifierUtils.isIdCharLenient(c)) {
-            ++_inputPtr;
             _reportInvalidToken(matchStr.substring(0, i), "'null', 'true', 'false' or NaN");
         }
     }

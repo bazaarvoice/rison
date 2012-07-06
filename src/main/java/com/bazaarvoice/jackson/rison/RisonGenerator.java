@@ -206,19 +206,19 @@ public final class RisonGenerator
    /**********************************************************
     */
 
-    private boolean omitArrayWrappers() {
-        return _writeContext.inRoot() && isRisonEnabled(Feature.A_RISON);
+    private boolean omitArrayWrappers(JsonWriteContext writeContext) {
+        return writeContext.inRoot() && isRisonEnabled(Feature.A_RISON);
     }
 
-    private boolean omitObjectWrappers() {
-        return _writeContext.inRoot() && isRisonEnabled(Feature.O_RISON);
+    private boolean omitObjectWrappers(JsonWriteContext writeContext) {
+        return writeContext.inRoot() && isRisonEnabled(Feature.O_RISON);
     }
 
     @Override
     public final void writeStartArray() throws IOException, JsonGenerationException
     {
         _verifyValueWrite("start an array");
-        if (!omitArrayWrappers()) {
+        if (!omitArrayWrappers(_writeContext)) {
             if ((_outputTail + 1) >= _outputEnd) {
                 _flushBuffer();
             }
@@ -235,7 +235,7 @@ public final class RisonGenerator
             _reportError("Current context not an ARRAY but "+_writeContext.getTypeDesc());
         }
         _writeContext = _writeContext.getParent();
-        if (!omitArrayWrappers()) {
+        if (!omitArrayWrappers(_writeContext)) {
             if (_outputTail >= _outputEnd) {
                 _flushBuffer();
             }
@@ -247,7 +247,7 @@ public final class RisonGenerator
     public final void writeStartObject() throws IOException, JsonGenerationException
     {
         _verifyValueWrite("start an object");
-        if (!(omitObjectWrappers())) {
+        if (!(omitObjectWrappers(_writeContext))) {
             if (_outputTail >= _outputEnd) {
                 _flushBuffer();
             }
@@ -263,7 +263,7 @@ public final class RisonGenerator
             _reportError("Current context not an object but "+_writeContext.getTypeDesc());
         }
         _writeContext = _writeContext.getParent();
-        if (!omitObjectWrappers()) {
+        if (!omitObjectWrappers(_writeContext)) {
             if (_outputTail >= _outputEnd) {
                 _flushBuffer();
             }

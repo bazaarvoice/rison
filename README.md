@@ -1,7 +1,7 @@
 Rison Parser and Generator for Jackson
 ======================================
 
-A plugin for the [Jackson streaming JSON processor] (http://wiki.fasterxml.com/JacksonHome) that adds
+A plugin for the [Jackson streaming JSON processor v1.9.x] (http://wiki.fasterxml.com/JacksonHome) that adds
 support for reading and writing JSON objects in the [Rison] (http://mjtemplate.org/examples/rison.html)
 serialization format.
 
@@ -33,8 +33,8 @@ If you know the value you wish to serialize is always an object, you can configu
 to omit the containing `(` and `)` characters.
 
     ObjectMapper O_RISON = new ObjectMapper(new RisonFactory().
-        configure(RisonGenerator.Feature.O_RISON, true).
-        configure(RisonParser.Feature.O_RISON, true));
+        enable(RisonGenerator.Feature.O_RISON).
+        enable(RisonParser.Feature.O_RISON));
 
     String string = "a:0,b:foo,c:'23skidoo'";
     Map map = O_RISON.readValue(json, Map.class);
@@ -49,8 +49,8 @@ If you know the value you wish to serialize is always an array, you can configur
 to omit the containing `!(` and `)` characters.
 
     ObjectMapper A_RISON = new ObjectMapper(new RisonFactory().
-        configure(RisonGenerator.Feature.A_RISON, true).
-        configure(RisonParser.Feature.A_RISON, true));
+        enable(RisonGenerator.Feature.A_RISON).
+        enable(RisonParser.Feature.A_RISON));
 
     String string = "item1,item2,item3";
     List list = A_RISON.readValue(json, List.class);

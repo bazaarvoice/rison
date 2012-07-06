@@ -1,8 +1,5 @@
 /*
 Portions of this file are copyright by the authors of Jackson under the Apache 2.0 or LGPL license.
-
-The implementation was derived from the Jackson class 'org.codehaus.jackson.impl.WriterBasedGenerator'
-and modified for Rison.
 */
 
 package com.bazaarvoice.jackson.rison;
@@ -145,6 +142,14 @@ public class RisonFactory extends JsonFactory {
 
     @Override
     protected Writer _createWriter(OutputStream out, JsonEncoding enc, IOContext ctxt) throws IOException {
+        // For better performance, Jackson implements two JSON parsers and two JSON generators: one for byte streams
+        // (UTF8Writer and UTF8Generator) and one for character streams (WriterBasedGenerator and ReaderBasedParser).
+        // For Rison, the primary use case is parsing URL query parameters which must be run through a URL decoder
+        // (eg. java.net.URLEncoder) which handles % decoding and UTF-8 decoding and returns a String.  Since the
+        // result has already gone through UTF-8 decoding and turned into a character stream, there's not much of a
+        // use case for a byte stream-specific Rison parser or generator, so we haven't written one.  For completeness,
+        // if asked to parse a byte stream, just wrap it in an OutputStreamWriter and use the character stream impl.
+        // It might be a bit slower than a dedicated UTF8Writer-style Rison generator, but hopefully not a big deal.
         return new OutputStreamWriter(out, enc.getJavaName());
     }
 }
