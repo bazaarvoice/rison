@@ -5,7 +5,7 @@
 
     <groupId>com.bazaarvoice.jackson</groupId>
     <artifactId>rison</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>Rison data format</name>
