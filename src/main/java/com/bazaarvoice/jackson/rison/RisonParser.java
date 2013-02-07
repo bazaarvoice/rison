@@ -7,28 +7,28 @@ modified for Rison.
 
 package com.bazaarvoice.jackson.rison;
 
-import org.codehaus.jackson.Base64Variant;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.ObjectCodec;
-import org.codehaus.jackson.impl.JsonParserBase;
-import org.codehaus.jackson.io.IOContext;
-import org.codehaus.jackson.sym.CharsToNameCanonicalizer;
-import org.codehaus.jackson.util.ByteArrayBuilder;
-import org.codehaus.jackson.util.TextBuffer;
+import com.fasterxml.jackson.core.Base64Variant;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.base.ParserBase;
+import com.fasterxml.jackson.core.io.IOContext;
+import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
+import com.fasterxml.jackson.core.util.ByteArrayBuilder;
+import com.fasterxml.jackson.core.util.TextBuffer;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
 /**
- * This is a concrete implementation of {@link org.codehaus.jackson.JsonParser}, which is
+ * This is a concrete implementation of {@link JsonParser}, which is
  * based on a {@link java.io.Reader} to handle low-level character
  * conversion tasks.
  */
 public class RisonParser
-        extends JsonParserBase
+        extends ParserBase
 {
     /**
      * Enumeration that defines all configurable features for Rison parsers.
@@ -384,6 +384,11 @@ public class RisonParser
             }
         }
         return 0;
+    }
+
+    @Override
+    public Object getEmbeddedObject() throws IOException, JsonParseException {
+        return null;
     }
 
     @Override
