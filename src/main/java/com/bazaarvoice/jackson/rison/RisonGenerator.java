@@ -7,17 +7,16 @@ modified for Rison.
 
 package com.bazaarvoice.jackson.rison;
 
-import org.codehaus.jackson.Base64Variant;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonStreamContext;
-import org.codehaus.jackson.ObjectCodec;
-import org.codehaus.jackson.SerializableString;
-import org.codehaus.jackson.impl.JsonGeneratorBase;
-import org.codehaus.jackson.impl.JsonWriteContext;
-import org.codehaus.jackson.io.IOContext;
-import org.codehaus.jackson.io.NumberOutput;
-import org.codehaus.jackson.io.SerializedString;
+import com.fasterxml.jackson.core.Base64Variant;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonStreamContext;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.SerializableString;
+import com.fasterxml.jackson.core.base.GeneratorBase;
+import com.fasterxml.jackson.core.io.IOContext;
+import com.fasterxml.jackson.core.io.NumberOutput;
+import com.fasterxml.jackson.core.json.JsonWriteContext;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -29,7 +28,7 @@ import java.math.BigInteger;
  * which handles character encoding.
  */
 public final class RisonGenerator
-        extends JsonGeneratorBase
+        extends GeneratorBase
 {
     /**
      * Enumeration that defines all configurable features for Rison generators.
@@ -170,18 +169,6 @@ public final class RisonGenerator
     public final void writeFieldName(String name)  throws IOException, JsonGenerationException
     {
         int status = _writeContext.writeFieldName(name);
-        if (status == JsonWriteContext.STATUS_EXPECT_VALUE) {
-            _reportError("Can not write a field name, expecting a value");
-        }
-        _writeFieldName(name, (status == JsonWriteContext.STATUS_OK_AFTER_COMMA));
-    }
-
-    @Override
-    public final void writeFieldName(SerializedString name)
-            throws IOException, JsonGenerationException
-    {
-        // Object is a value, need to verify it's allowed
-        int status = _writeContext.writeFieldName(name.getValue());
         if (status == JsonWriteContext.STATUS_EXPECT_VALUE) {
             _reportError("Can not write a field name, expecting a value");
         }

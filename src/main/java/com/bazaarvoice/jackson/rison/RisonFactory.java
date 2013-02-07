@@ -4,14 +4,13 @@ Portions of this file are copyright by the authors of Jackson under the Apache 2
 
 package com.bazaarvoice.jackson.rison;
 
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.ObjectCodec;
-import org.codehaus.jackson.format.InputAccessor;
-import org.codehaus.jackson.format.MatchStrength;
-import org.codehaus.jackson.io.IOContext;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.format.InputAccessor;
+import com.fasterxml.jackson.core.format.MatchStrength;
+import com.fasterxml.jackson.core.io.IOContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -116,8 +115,8 @@ public class RisonFactory extends JsonFactory {
     @Override
     protected RisonParser _createJsonParser(Reader r, IOContext ctxt) throws IOException, JsonParseException {
         return new RisonParser(ctxt, _parserFeatures, _risonParserFeatures, r, _objectCodec,
-                _rootCharSymbols.makeChild(isEnabled(JsonParser.Feature.CANONICALIZE_FIELD_NAMES),
-                        isEnabled(JsonParser.Feature.INTERN_FIELD_NAMES)));
+                _rootCharSymbols.makeChild(isEnabled(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES),
+                        isEnabled(JsonFactory.Feature.INTERN_FIELD_NAMES)));
     }
 
     @Override
