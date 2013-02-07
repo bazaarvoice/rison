@@ -1,7 +1,7 @@
 Rison Parser and Generator for Jackson
 ======================================
 
-A plugin for the [Jackson streaming JSON processor v1.9.x] (http://wiki.fasterxml.com/JacksonHome) that adds
+A plugin for the [Jackson streaming JSON processor v2.1.x] (http://wiki.fasterxml.com/JacksonHome) that adds
 support for reading and writing JSON objects in the [Rison] (http://mjtemplate.org/examples/rison.html)
 serialization format.
 
