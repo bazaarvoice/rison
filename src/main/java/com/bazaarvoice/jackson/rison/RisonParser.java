@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.base.ParserBase;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer;
@@ -141,6 +142,11 @@ public class RisonParser
         _symbols = st;
     }
 
+    @Override
+    public Version version() {
+        return ModuleVersion.instance.version();
+    }
+
     /*
     /**********************************************************
     /* Configuration
@@ -186,7 +192,7 @@ public class RisonParser
     }
 
     @Override
-    protected final boolean loadMore() throws IOException
+    protected boolean loadMore() throws IOException
     {
         _currInputProcessed += _inputEnd;
         _currInputRowStart -= _inputEnd;
@@ -268,7 +274,7 @@ public class RisonParser
      * Method can be called for any event.
      */
     @Override
-    public final String getText()
+    public String getText()
             throws IOException, JsonParseException
     {
         JsonToken t = _currToken;
@@ -282,7 +288,7 @@ public class RisonParser
         return _getText2(t);
     }
 
-    protected final String _getText2(JsonToken t)
+    protected String _getText2(JsonToken t)
     {
         if (t == null) {
             return null;
@@ -768,7 +774,7 @@ public class RisonParser
      * deferred, since it is usually the most complicated and costliest
      * part of processing.
      */
-    protected final JsonToken parseNumberText(int ch)
+    protected JsonToken parseNumberText(int ch)
             throws IOException, JsonParseException
     {
         /* Although we will always be complete with respect to textual
@@ -1087,7 +1093,7 @@ public class RisonParser
     /**********************************************************
      */
 
-    protected final String _parseFieldName(int i)
+    protected String _parseFieldName(int i)
             throws IOException, JsonParseException
     {
         /* First: let's try to see if we have a simple name: one that does
@@ -1167,10 +1173,8 @@ public class RisonParser
      * than double quote, when expecting a field name.
      * In standard mode will just throw an expection; but
      * in non-standard modes may be able to parse name.
-     *
-     * @since 1.2
      */
-    protected final String _parseUnquotedFieldName(int i)
+    protected String _parseUnquotedFieldName(int i)
             throws IOException, JsonParseException
     {
         // Also: first char must be a valid name char, but NOT be number
@@ -1202,10 +1206,8 @@ public class RisonParser
     /**
      * Method for handling cases where first non-space character
      * of an expected value token is not legal for standard JSON content.
-     *
-     * @since 1.3
      */
-    protected final JsonToken _handleUnexpectedValue(int i)
+    protected JsonToken _handleUnexpectedValue(int i)
             throws IOException, JsonParseException
     {
         // Most likely an error, unless we are to allow single-quote-strings
@@ -1229,9 +1231,6 @@ public class RisonParser
         return null;
     }
 
-    /**
-     * @since 1.2
-     */
     private String _parseUnquotedFieldName2(int startPtr, int hash)
             throws IOException, JsonParseException
     {
@@ -1452,7 +1451,7 @@ public class RisonParser
     }
 
     @Override
-    protected final char _decodeEscaped()
+    protected char _decodeEscaped()
             throws IOException, JsonParseException
     {
         if (_inputPtr >= _inputEnd) {
@@ -1469,10 +1468,8 @@ public class RisonParser
 
     /**
      * Helper method for checking whether input matches expected token
-     *
-     * @since 1.8
      */
-    protected final void _matchToken(String matchStr, int i)
+    protected void _matchToken(String matchStr, int i)
             throws IOException, JsonParseException
     {
         final int len = matchStr.length();
