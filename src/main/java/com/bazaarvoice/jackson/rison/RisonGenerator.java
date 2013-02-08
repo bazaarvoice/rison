@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.base.GeneratorBase;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.io.NumberOutput;
 import com.fasterxml.jackson.core.json.JsonWriteContext;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -95,6 +96,9 @@ public final class RisonGenerator
 
     final protected int _risonFeatures;
 
+    protected SerializableString _rootValueSeparator
+            = DefaultPrettyPrinter.DEFAULT_ROOT_VALUE_SEPARATOR;
+
     /*
     /**********************************************************
     /* Output buffering
@@ -159,6 +163,12 @@ public final class RisonGenerator
 
     private boolean isRisonEnabled(Feature feature) {
         return (_risonFeatures & feature.getMask()) != 0;
+    }
+
+    @Override
+    public JsonGenerator setRootValueSeparator(SerializableString sep) {
+        _rootValueSeparator = sep;
+        return this;
     }
 
     /*
@@ -620,8 +630,10 @@ public final class RisonGenerator
                 c = ':';
                 break;
             case JsonWriteContext.STATUS_OK_AFTER_SPACE:
-                c = ' ';
-                break;
+                if (_rootValueSeparator != null) {
+                    _writeRaw(_rootValueSeparator.getValue());
+                }
+                return;
             case JsonWriteContext.STATUS_OK_AS_IS:
             default:
                 return;

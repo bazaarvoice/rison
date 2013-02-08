@@ -8,10 +8,12 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.format.InputAccessor;
 import com.fasterxml.jackson.core.format.MatchStrength;
 import com.fasterxml.jackson.core.io.IOContext;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,6 +44,17 @@ public class RisonFactory extends JsonFactory {
 
     public RisonFactory(ObjectCodec codec) {
         super(codec);
+    }
+
+    @Override
+    public RisonFactory copy() {
+        _checkInvalidCopy(RisonFactory.class);
+        return new RisonFactory(null);
+    }
+
+    @Override
+    protected Object readResolve() {
+        return new RisonFactory(_objectCodec);
     }
 
     @Override
@@ -118,10 +131,27 @@ public class RisonFactory extends JsonFactory {
     //
 
     @Override
+    protected RisonParser _createParser(InputStream in, IOContext ctxt) throws IOException, JsonParseException {
+        return _createJsonParser(in, ctxt);
+    }
+
+    @Override
+    protected RisonParser _createParser(Reader r, IOContext ctxt) throws IOException, JsonParseException {
+        return _createJsonParser(r, ctxt);
+    }
+
+    @Override
+    protected RisonParser _createParser(byte[] data, int offset, int len, IOContext ctxt) throws IOException, JsonParseException {
+        return _createJsonParser(data, offset, len, ctxt);
+    }
+
+    @Deprecated
+    @Override
     protected RisonParser _createJsonParser(InputStream in, IOContext ctxt) throws IOException, JsonParseException {
         return _createJsonParser(new InputStreamReader(in, "UTF-8"), ctxt);
     }
 
+    @Deprecated
     @Override
     protected RisonParser _createJsonParser(Reader r, IOContext ctxt) throws IOException, JsonParseException {
         return new RisonParser(ctxt, _parserFeatures, _risonParserFeatures, r, _objectCodec,
@@ -129,16 +159,34 @@ public class RisonFactory extends JsonFactory {
                         isEnabled(JsonFactory.Feature.INTERN_FIELD_NAMES)));
     }
 
+    @Deprecated
     @Override
     protected RisonParser _createJsonParser(byte[] data, int offset, int len, IOContext ctxt) throws IOException, JsonParseException {
         return _createJsonParser(new ByteArrayInputStream(data, offset, len), ctxt);
     }
 
     @Override
-    protected RisonGenerator _createJsonGenerator(Writer out, IOContext ctxt) throws IOException {
-        return new RisonGenerator(ctxt, _generatorFeatures, _risonGeneratorFeatures, _objectCodec, out);
+    protected RisonGenerator _createGenerator(Writer out, IOContext ctxt) throws IOException {
+        return _createJsonGenerator(out, ctxt);
     }
 
+    @Deprecated
+    @Override
+    protected RisonGenerator _createJsonGenerator(Writer out, IOContext ctxt) throws IOException {
+        RisonGenerator gen = new RisonGenerator(ctxt, _generatorFeatures, _risonGeneratorFeatures, _objectCodec, out);
+        SerializableString rootSep = _rootValueSeparator;
+        if (rootSep != DefaultPrettyPrinter.DEFAULT_ROOT_VALUE_SEPARATOR) {
+            gen.setRootValueSeparator(rootSep);
+        }
+        return gen;
+    }
+
+    @Override
+    protected RisonGenerator _createUTF8Generator(OutputStream out, IOContext ctxt) throws IOException {
+        return _createUTF8JsonGenerator(out, ctxt);
+    }
+
+    @Deprecated
     @Override
     protected RisonGenerator _createUTF8JsonGenerator(OutputStream out, IOContext ctxt) throws IOException {
         return _createJsonGenerator(_createWriter(out, JsonEncoding.UTF8, ctxt), ctxt);
