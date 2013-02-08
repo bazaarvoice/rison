@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonStreamContext;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.SerializableString;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.base.GeneratorBase;
 import com.fasterxml.jackson.core.io.IOContext;
 import com.fasterxml.jackson.core.io.NumberOutput;
@@ -140,6 +141,11 @@ public final class RisonGenerator
         _outputEnd = _outputBuffer.length;
     }
 
+    @Override
+    public Version version() {
+        return ModuleVersion.instance.version();
+    }
+
     /*
    /**********************************************************
    /* Overridden configuration methods
@@ -161,12 +167,8 @@ public final class RisonGenerator
    /**********************************************************
     */
 
-    /* Most overrides in this section are just to make methods final,
-     * to allow better inlining...
-     */
-
     @Override
-    public final void writeFieldName(String name)  throws IOException, JsonGenerationException
+    public void writeFieldName(String name)  throws IOException, JsonGenerationException
     {
         int status = _writeContext.writeFieldName(name);
         if (status == JsonWriteContext.STATUS_EXPECT_VALUE) {
@@ -176,7 +178,7 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeFieldName(SerializableString name)
+    public void writeFieldName(SerializableString name)
             throws IOException, JsonGenerationException
     {
         // Object is a value, need to verify it's allowed
@@ -202,7 +204,7 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeStartArray() throws IOException, JsonGenerationException
+    public void writeStartArray() throws IOException, JsonGenerationException
     {
         _verifyValueWrite("start an array");
         if (!omitArrayWrappers(_writeContext)) {
@@ -216,7 +218,7 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeEndArray() throws IOException, JsonGenerationException
+    public void writeEndArray() throws IOException, JsonGenerationException
     {
         if (!_writeContext.inArray()) {
             _reportError("Current context not an ARRAY but "+_writeContext.getTypeDesc());
@@ -231,7 +233,7 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeStartObject() throws IOException, JsonGenerationException
+    public void writeStartObject() throws IOException, JsonGenerationException
     {
         _verifyValueWrite("start an object");
         if (!(omitObjectWrappers(_writeContext))) {
@@ -244,7 +246,7 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeEndObject() throws IOException, JsonGenerationException
+    public void writeEndObject() throws IOException, JsonGenerationException
     {
         if (!_writeContext.inObject()) {
             _reportError("Current context not an object but "+_writeContext.getTypeDesc());
@@ -288,7 +290,7 @@ public final class RisonGenerator
     public void _writeFieldName(SerializableString name, boolean commaBefore)
             throws IOException, JsonGenerationException
     {
-        // can't take advantage of SerializableString.asQuotedChars() because JSON and Rison
+        // Can't take advantage of SerializableString.asQuotedChars() because JSON and Rison
         // have different rules for quoting characters within strings.
         _writeFieldName(name.getValue(), commaBefore);
     }
@@ -350,10 +352,10 @@ public final class RisonGenerator
     }
 
     @Override
-    public final void writeString(SerializableString sstr)
+    public void writeString(SerializableString sstr)
             throws IOException, JsonGenerationException
     {
-        // can't take advantage of SerializableString.asQuotedChars() because JSON and Rison
+        // Can't take advantage of SerializableString.asQuotedChars() because JSON and Rison
         // have different rules for quoting characters within strings.
         writeString(sstr.getValue());
     }
@@ -637,7 +639,7 @@ public final class RisonGenerator
      */
 
     @Override
-    public final void flush()
+    public void flush()
             throws IOException
     {
         _flushBuffer();
