@@ -15,15 +15,15 @@ public class VersionTest {
     public void testMapperVersions() throws IOException {
         RisonFactory factory = new RisonFactory();
         assertVersion(factory);
-        assertVersion(factory.createJsonGenerator(new ByteArrayOutputStream()));
-        assertVersion(factory.createJsonParser(new byte[0]));
+        assertVersion(factory.createGenerator(new ByteArrayOutputStream()));
+        assertVersion(factory.createParser(new byte[0]));
     }
 
     private void assertVersion(Versioned versioned) {
         Version version = versioned.version();
         assertFalse(version.isUknownVersion(), "Should find version information (got " + version + ")");
         assertEquals(version.getMajorVersion(), 2);
-        assertEquals(version.getMinorVersion(), 0);
+        assertEquals(version.getMinorVersion(), 1);
         assertEquals(version.getGroupId(), "com.bazaarvoice.jackson");
         assertEquals(version.getArtifactId(), "rison");
     }
