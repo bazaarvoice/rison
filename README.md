@@ -17,15 +17,16 @@ Usage
 In your code, create a `RisonFactory` instead of a `JsonFactory`.  Then read and write objects just
 as you do regular JSON objects.  All the Jackson mapper facilities are available with Rison.
 
-    import com.bazaarvoice.jackson.rison.RisonFactory;
-    
-    ObjectMapper RISON = new ObjectMapper(new RisonFactory());
-    
-    String string = "(a:0,b:foo,c:'23skidoo')";
-    Map map = RISON.readValue(json, Map.class);
-    ...
-    RISON.writeValueAsString(map);
+```java
+import com.bazaarvoice.jackson.rison.RisonFactory;
 
+ObjectMapper RISON = new ObjectMapper(new RisonFactory());
+
+String string = "(a:0,b:foo,c:'23skidoo')";
+Map map = RISON.readValue(json, Map.class);
+...
+RISON.writeValueAsString(map);
+```
 
 O-Rison
 -------
@@ -33,14 +34,16 @@ O-Rison
 If you know the value you wish to serialize is always an object, you can configure the `RisonFactory`
 to omit the containing `(` and `)` characters.
 
-    ObjectMapper O_RISON = new ObjectMapper(new RisonFactory().
-        enable(RisonGenerator.Feature.O_RISON).
-        enable(RisonParser.Feature.O_RISON));
+```java
+ObjectMapper O_RISON = new ObjectMapper(new RisonFactory().
+    enable(RisonGenerator.Feature.O_RISON).
+    enable(RisonParser.Feature.O_RISON));
 
-    String string = "a:0,b:foo,c:'23skidoo'";
-    Map map = O_RISON.readValue(json, Map.class);
-    ...
-    System.out.println(O_RISON.writeValueAsString(map));
+String string = "a:0,b:foo,c:'23skidoo'";
+Map map = O_RISON.readValue(json, Map.class);
+...
+System.out.println(O_RISON.writeValueAsString(map));
+```
 
 
 A-Rison
@@ -49,14 +52,16 @@ A-Rison
 If you know the value you wish to serialize is always an array, you can configure the `RisonFactory`
 to omit the containing `!(` and `)` characters.
 
-    ObjectMapper A_RISON = new ObjectMapper(new RisonFactory().
-        enable(RisonGenerator.Feature.A_RISON).
-        enable(RisonParser.Feature.A_RISON));
+```java
+ObjectMapper A_RISON = new ObjectMapper(new RisonFactory().
+    enable(RisonGenerator.Feature.A_RISON).
+    enable(RisonParser.Feature.A_RISON));
 
-    String string = "item1,item2,item3";
-    List list = A_RISON.readValue(json, List.class);
-    ...
-    System.out.println(A_RISON.writeValueAsString(list));
+String string = "item1,item2,item3";
+List list = A_RISON.readValue(json, List.class);
+...
+System.out.println(A_RISON.writeValueAsString(list));
+```
 
 
 Other Implementations
