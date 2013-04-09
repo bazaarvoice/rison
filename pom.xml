@@ -3,6 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.bazaarvoice.commons</groupId>
+        <artifactId>bv-opensource-super-pom</artifactId>
+        <version>1.0</version>
+    </parent>
+
     <groupId>com.bazaarvoice.jackson</groupId>
     <artifactId>rison</artifactId>
     <version>2.1.1-SNAPSHOT</version>
@@ -22,6 +28,7 @@
     <scm>
         <url>https://github.com/bazaarvoice/rison</url>
         <connection>scm:git:git@github.com:bazaarvoice/rison.git</connection>
+        <developerConnection>scm:git:git@github.com:bazaarvoice/rison.git</developerConnection>
     </scm>
 
     <properties>
@@ -60,16 +67,19 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+            <plugins>
+                <!-- Make sure we always turn all warnings on during compilation. -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                    <configuration>
+                        <compilerArgument>-Xlint:all</compilerArgument>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>bazaarvoice-deploy</id>
-            <url>https://repo.bazaarvoice.com/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>bazaarvoice-deploy</id>
-            <url>https://repo.bazaarvoice.com/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
