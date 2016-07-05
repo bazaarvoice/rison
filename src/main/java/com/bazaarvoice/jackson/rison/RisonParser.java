@@ -31,6 +31,9 @@ import java.io.Writer;
 public class RisonParser
         extends ParserBase
 {
+
+    public static final char INT_APOSTROPHE = '\'';
+
     /**
      * Enumeration that defines all configurable features for Rison parsers.
      */
@@ -144,7 +147,7 @@ public class RisonParser
 
     @Override
     public Version version() {
-        return ModuleVersion.instance.version();
+        return PackageVersion.version();
     }
 
     /*
@@ -563,14 +566,14 @@ public class RisonParser
                 * and could be indicate by a more specific error message.
                 */
             case INT_0:
-            case INT_1:
-            case INT_2:
-            case INT_3:
-            case INT_4:
-            case INT_5:
-            case INT_6:
-            case INT_7:
-            case INT_8:
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
             case INT_9:
                 t = parseNumberText(i);
                 break;
@@ -584,13 +587,13 @@ public class RisonParser
                         }
                         t = JsonToken.START_ARRAY;
                         break;
-                    case INT_t:
+                    case 't':
                         t = JsonToken.VALUE_TRUE;
                         break;
-                    case INT_f:
+                    case 'f':
                         t = JsonToken.VALUE_FALSE;
                         break;
-                    case INT_n:
+                    case 'n':
                         t = JsonToken.VALUE_NULL;
                         break;
                     default:
@@ -834,7 +837,7 @@ public class RisonParser
             int fractLen = 0;
 
             // And then see if we get other parts
-            if (ch == INT_DECIMAL_POINT) { // yes, fraction
+            if (ch == '.') { // yes, fraction
                 fract_loop:
                 while (true) {
                     if (ptr >= inputLen) {
