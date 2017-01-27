@@ -69,7 +69,7 @@ public class RisonFactory extends JsonFactory {
 
     @Override
     public Version version() {
-        return ModuleVersion.instance.version();
+        return PackageVersion.version();
     }
 
     //
@@ -126,6 +126,11 @@ public class RisonFactory extends JsonFactory {
         return (_risonGeneratorFeatures & f.getMask()) != 0;
     }
 
+    @Override
+    public boolean canUseCharArrays() {
+        return false;
+    }
+
     //
     // Internal factory methods
     //
@@ -146,21 +151,20 @@ public class RisonFactory extends JsonFactory {
     }
 
     @Deprecated
-    @Override
     protected RisonParser _createJsonParser(InputStream in, IOContext ctxt) throws IOException, JsonParseException {
         return _createJsonParser(new InputStreamReader(in, "UTF-8"), ctxt);
     }
 
     @Deprecated
-    @Override
     protected RisonParser _createJsonParser(Reader r, IOContext ctxt) throws IOException, JsonParseException {
         return new RisonParser(ctxt, _parserFeatures, _risonParserFeatures, r, _objectCodec,
-                _rootCharSymbols.makeChild(isEnabled(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES),
-                        isEnabled(JsonFactory.Feature.INTERN_FIELD_NAMES)));
+                    _rootCharSymbols.makeChild(
+                            (isEnabled(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES) ? JsonFactory.Feature.CANONICALIZE_FIELD_NAMES.getMask() : 0)
+                                    |
+                                        (isEnabled(JsonFactory.Feature.INTERN_FIELD_NAMES) ? JsonFactory.Feature.INTERN_FIELD_NAMES.getMask() : 0)));
     }
 
     @Deprecated
-    @Override
     protected RisonParser _createJsonParser(byte[] data, int offset, int len, IOContext ctxt) throws IOException, JsonParseException {
         return _createJsonParser(new ByteArrayInputStream(data, offset, len), ctxt);
     }
@@ -171,7 +175,6 @@ public class RisonFactory extends JsonFactory {
     }
 
     @Deprecated
-    @Override
     protected RisonGenerator _createJsonGenerator(Writer out, IOContext ctxt) throws IOException {
         RisonGenerator gen = new RisonGenerator(ctxt, _generatorFeatures, _risonGeneratorFeatures, _objectCodec, out);
         SerializableString rootSep = _rootValueSeparator;
@@ -187,8 +190,8 @@ public class RisonFactory extends JsonFactory {
     }
 
     @Deprecated
-    @Override
     protected RisonGenerator _createUTF8JsonGenerator(OutputStream out, IOContext ctxt) throws IOException {
         return _createJsonGenerator(_createWriter(out, JsonEncoding.UTF8, ctxt), ctxt);
     }
+
 }

@@ -1,0 +1,18 @@
+package com.bazaarvoice.jackson.rison;
+
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.util.VersionUtil;
+
+/**
+This class is generated programmatically by Maven.
+*/
+public class PackageVersion {
+
+    public static final Version INSTANCE =
+        VersionUtil.parseVersion("@PROJECT_VERSION@", "@PROJECT_GROUP_ID@", "@PROJECT_ARTIFACT_ID@");
+
+    public static Version version() {
+        return INSTANCE;
+    }
+
+}
