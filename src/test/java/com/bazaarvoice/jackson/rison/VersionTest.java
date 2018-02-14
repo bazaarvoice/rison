@@ -23,7 +23,7 @@ public class VersionTest {
         Version version = versioned.version();
         assertFalse(version.isUknownVersion(), "Should find version information (got " + version + ")");
         assertEquals(version.getMajorVersion(), 2);
-        assertEquals(version.getMinorVersion(), 6);
+        assertEquals(version.getMinorVersion(), 9);
         assertEquals(version.getGroupId(), "com.bazaarvoice.jackson");
         assertEquals(version.getArtifactId(), "rison");
     }
