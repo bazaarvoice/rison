@@ -23,7 +23,7 @@ import com.bazaarvoice.jackson.rison.RisonFactory;
 ObjectMapper RISON = new ObjectMapper(new RisonFactory());
 
 String string = "(a:0,b:foo,c:'23skidoo')";
-Map map = RISON.readValue(json, Map.class);
+Map map = RISON.readValue(string, Map.class);
 ...
 RISON.writeValueAsString(map);
 ```
@@ -40,7 +40,7 @@ ObjectMapper O_RISON = new ObjectMapper(new RisonFactory().
     enable(RisonParser.Feature.O_RISON));
 
 String string = "a:0,b:foo,c:'23skidoo'";
-Map map = O_RISON.readValue(json, Map.class);
+Map map = O_RISON.readValue(string, Map.class);
 ...
 System.out.println(O_RISON.writeValueAsString(map));
 ```
@@ -58,7 +58,7 @@ ObjectMapper A_RISON = new ObjectMapper(new RisonFactory().
     enable(RisonParser.Feature.A_RISON));
 
 String string = "item1,item2,item3";
-List list = A_RISON.readValue(json, List.class);
+List list = A_RISON.readValue(string, List.class);
 ...
 System.out.println(A_RISON.writeValueAsString(list));
 ```
