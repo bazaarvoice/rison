@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.bazaarvoice.commons</groupId>
         <artifactId>bv-opensource-super-pom</artifactId>
-        <version>1.5</version>
+        <version>1.0</version>
     </parent>
 
     <groupId>com.bazaarvoice.jackson</groupId>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.14.3</version>
+            <version>6.3.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -71,6 +71,7 @@
                 <!-- Make sure we always turn all warnings on during compilation. -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
                     <configuration>
                         <compilerArgument>-Xlint:all</compilerArgument>
                         <showWarnings>true</showWarnings>
@@ -100,7 +101,7 @@
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
+                <version>1.5.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
