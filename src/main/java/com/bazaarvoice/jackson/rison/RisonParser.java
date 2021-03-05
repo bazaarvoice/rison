@@ -513,7 +513,7 @@ public class RisonParser
         // Nope: do we then expect a comma?
         if (_parsingContext.expectComma()) {
             if (i != INT_COMMA) {
-                _reportUnexpectedChar(i, "was expecting comma to separate "+_parsingContext.getTypeDesc()+" entries");
+                _reportUnexpectedChar(i, "was expecting comma to separate "+_parsingContext.typeDesc()+" entries");
             }
             i = _nextCh();
         }
@@ -1441,7 +1441,7 @@ public class RisonParser
         if (_inputPtr < _inputEnd || loadMore()) {
             return _inputBuffer[_inputPtr++];
         }
-        throw _constructError("Unexpected end-of-input within/between " + _parsingContext.getTypeDesc() + " entries");
+        throw _constructError("Unexpected end-of-input within/between " + _parsingContext.typeDesc() + " entries");
     }
 
     private int _nextChOrEnd()

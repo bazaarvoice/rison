@@ -231,7 +231,7 @@ public final class RisonGenerator
     public void writeEndArray() throws IOException, JsonGenerationException
     {
         if (!_writeContext.inArray()) {
-            _reportError("Current context not an ARRAY but "+_writeContext.getTypeDesc());
+            _reportError("Current context not an ARRAY but "+_writeContext.typeDesc());
         }
         _writeContext = _writeContext.getParent();
         if (!omitArrayWrappers(_writeContext)) {
@@ -259,7 +259,7 @@ public final class RisonGenerator
     public void writeEndObject() throws IOException, JsonGenerationException
     {
         if (!_writeContext.inObject()) {
-            _reportError("Current context not an object but "+_writeContext.getTypeDesc());
+            _reportError("Current context not an object but "+_writeContext.typeDesc());
         }
         _writeContext = _writeContext.getParent();
         if (!omitObjectWrappers(_writeContext)) {
