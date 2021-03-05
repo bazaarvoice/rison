@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * See the <a href="http://mjtemplate.org/examples/rison.html">Rison spec</a>.
@@ -152,7 +153,7 @@ public class RisonFactory extends JsonFactory {
 
     @Deprecated
     protected RisonParser _createJsonParser(InputStream in, IOContext ctxt) throws IOException, JsonParseException {
-        return _createJsonParser(new InputStreamReader(in, "UTF-8"), ctxt);
+        return _createJsonParser(new InputStreamReader(in, StandardCharsets.UTF_8), ctxt);
     }
 
     @Deprecated
