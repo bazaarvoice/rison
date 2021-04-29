@@ -1,0 +1,37 @@
+version: 2
+registries:
+  maven-repository-repo-bazaarvoice-com-nexus-content-groups-bazaa:
+    type: maven-repository
+    url: https://repo.bazaarvoice.com/nexus/content/groups/bazaarvoice/
+    username: release
+    password: "${{secrets.MAVEN_REPOSITORY_REPO_BAZAARVOICE_COM_NEXUS_CONTENT_GROUPS_BAZAA_PASSWORD}}"
+
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "02:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: com.fasterxml.jackson.core:jackson-databind
+    versions:
+    - 2.12.1
+    - 2.12.2
+    - 2.12.2
+  - dependency-name: com.fasterxml.jackson.core:jackson-annotations
+    versions:
+    - 2.12.2
+  - dependency-name: com.fasterxml.jackson.core:jackson-core
+    versions:
+    - 2.12.1
+    - 2.12.2
+    - 2.12.2
+  - dependency-name: com.bazaarvoice.commons:bv-opensource-super-pom
+    versions:
+    - "1.10"
+  - dependency-name: org.testng:testng
+    versions:
+    - 7.3.0
+  registries:
+  - maven-repository-repo-bazaarvoice-com-nexus-content-groups-bazaa
