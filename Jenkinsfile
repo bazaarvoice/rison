@@ -24,7 +24,7 @@ pipeline {
      stage('Build') {
       steps {
         script {
-          sh '''mvn -e verify -Ddependency-check.skip=true -Pdocker sonar:sonar ${prKey} ${prBranch} ${prBase}'''
+          sh '''mvn -e verify -Ddependency-check.skip=true sonar:sonar ${prKey} ${prBranch} ${prBase}'''
         }
       }
     }
