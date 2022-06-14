@@ -42,6 +42,11 @@
         <packageVersion.package>${project.groupId}.json</packageVersion.package>
         <packageVersion.template.input>src/main/java/${packageVersion.dir}/PackageVersion.java.in</packageVersion.template.input>
         <packageVersion.template.output>${generatedSourcesDir}/${packageVersion.dir}/PackageVersion.java</packageVersion.template.output>
+        <sonar.projectKey>bazaarvoice_rison</sonar.projectKey>
+        <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+        <jacoco.version>0.8.8</jacoco.version>
+        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
@@ -168,6 +173,41 @@
                         </configuration>
                         <goals>
                             <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>@{argLine} -Dfile.encoding=UTF-8 -Djava.awt.headless=true</argLine>
+                    <excludes>
+                        <!--
+                            Exclude the Integration Tests; see also
+                            maven-failsafe-plugin configuration below.
+                         -->
+                        <exclude>test/integration/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
