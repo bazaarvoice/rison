@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rison
+  description: Plugin that supports reading and writing JSON files in Rison format
+  annotations:
+    backstage.io/techdocs-ref: 'url:https://github.com/bazaarvoice/rison'
+  links:
+    - url: https://github.com/Nanonid/rison
+      title: Information on Rison
+      icon: docs
+  tags:
+    - rison
+    - json
+spec:
+  type: library
+  system: rison
+  lifecycle: production
+  github.com/project-slug: bazaarvoice/rison
+  owner: empty
