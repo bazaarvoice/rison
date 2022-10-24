@@ -1,9 +1,5 @@
 #!/usr/bin/env groovy
 
-def prKey = "-Dsonar.pullrequest.key=${env.CHANGE_ID}"
-def prBranch = "-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
-def prBase = "-Dsonar.pullrequest.base=${env.CHANGE_TARGET}"
-
 pipeline {
   agent {
     label 'java/11-docker-ecr && environment/qa && account/bv-nexus-qa'
@@ -23,9 +19,7 @@ pipeline {
   stages {
      stage('Build') {
       steps {
-        withSonarQubeEnv(installationName: 'Bazaarvoice QA SonarQube') {
-          sh '''mvn -e verify -Ddependency-check.skip=true sonar:sonar ${prKey} ${prBranch} ${prBase}'''
-        }
+        sh '''mvn -e verify -Ddependency-check.skip=true'''
       }
     }
   }
