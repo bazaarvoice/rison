@@ -35,7 +35,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jackson.version>2.12.4</jackson.version>
+        <jackson.version>2.13.3</jackson.version>
 
         <generatedSourcesDir>${project.build.directory}/generated-sources</generatedSourcesDir>
         <packageVersion.dir>com/bazaarvoice/jackson/rison</packageVersion.dir>
@@ -162,9 +162,9 @@
                                     <version>[1.8,)</version>
                                     <message>requires Java 1.8</message>
                                 </requireJavaVersion>
-                                <dependencyConvergence />
-                                <requireUpperBoundDeps />
-                                <banDuplicatePomDependencyVersions />
+                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
+                                <banDuplicatePomDependencyVersions/>
                             </rules>
                         </configuration>
                         <goals>
