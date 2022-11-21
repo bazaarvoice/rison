@@ -14,8 +14,6 @@ metadata:
     - jackson
     - json
     - java
-    - maven
-    - testng
 spec:
   type: library
   system: emodb
