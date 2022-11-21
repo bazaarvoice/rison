@@ -1,0 +1,24 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rison
+  description: A plugin for the Jackson streaming JSON processor v2.10.x that adds support for reading and writing JSON objects in the Rison serialization format
+  annotations:
+    backstage.io/techdocs-ref: 'url:https://github.com/bazaarvoice/rison'
+  links:
+    - url: https://github.com/Nanonid/rison
+      title: Information on Rison
+      icon: docs
+  tags:
+    - rison
+    - jackson
+    - json
+    - java
+    - maven
+    - testng
+spec:
+  type: library
+  system: emodb
+  lifecycle: production
+  github.com/project-slug: bazaarvoice/rison
+  owner: data-storage
